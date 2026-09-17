@@ -2,7 +2,7 @@
 
 The public wiki for the FORGED Minecraft SMP.
 
-**Live at:** https://tanner412.github.io/forgedsmp/
+**Live at:** https://smp-fco.github.io/
 
 ## Editing it
 
