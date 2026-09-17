@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FORGED Codex</title>
+<meta name="description" content="The player wiki for the FORGED Minecraft SMP: seven Chosen Weapons, three Maces, progression, death rules and commands.">
+<meta property="og:title" content="FORGED Codex">
+<meta property="og:description" content="One weapon. Earned in blood. Lost the same way.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%E2%9A%92%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600&display=swap">
+
+<style>
+:root{
+  --bg:#E8EAEC;
+  --surface:#F7F8F9;
+  --surface-2:#DFE2E5;
+  --ink:#14171B;
+  --muted:#5A6068;
+  --line:#C6CBD1;
+  --line-soft:#D8DCE1;
+  --ember:#B23C08;
+  --ember-hot:#E2691F;
+  --ember-wash:rgba(178,60,8,.09);
+  --steel:#33566F;
+  --steel-wash:rgba(51,86,111,.10);
+  --shadow:0 1px 2px rgba(20,23,27,.07);
+
+  --font-display:"Big Shoulders Display","Haettenschweiler","Arial Narrow",sans-serif;
+  --font-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --font-mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#111317;
+    --surface:#181B20;
+    --surface-2:#1F242A;
+    --ink:#E6E9EC;
+    --muted:#98A0A9;
+    --line:#2B3138;
+    --line-soft:#232830;
+    --ember:#F2783B;
+    --ember-hot:#FF9455;
+    --ember-wash:rgba(242,120,59,.12);
+    --steel:#86AECD;
+    --steel-wash:rgba(134,174,205,.12);
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111317;
+  --surface:#181B20;
+  --surface-2:#1F242A;
+  --ink:#E6E9EC;
+  --muted:#98A0A9;
+  --line:#2B3138;
+  --line-soft:#232830;
+  --ember:#F2783B;
+  --ember-hot:#FF9455;
+  --ember-wash:rgba(242,120,59,.12);
+  --steel:#86AECD;
+  --steel-wash:rgba(134,174,205,.12);
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--font-body);font-size:15px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--ember);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--ember);outline-offset:2px;border-radius:2px}
+
+/* ---------- masthead ---------- */
+.mast{
+  border-bottom:1px solid var(--line);
+  background:
+    linear-gradient(180deg,var(--ember-wash),transparent 70%),
+    var(--surface);
+}
+.mast-in{max-width:1180px;margin:0 auto;padding-block:38px 30px;padding-left:20px;padding-right:20px;text-align:center}
+.wordmark{
+  font-family:var(--font-display);font-weight:800;
+  font-size:clamp(54px,12vw,110px);line-height:.86;letter-spacing:.055em;
+  margin:0;text-transform:uppercase;
+  background:linear-gradient(175deg,var(--ink) 30%,var(--ember) 130%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.tagline{
+  font-family:var(--font-mono);font-size:12px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--ember);
+  margin:14px 0 0;
+}
+.mast-rule{height:1px;background:var(--line);margin:18px auto;max-width:640px}
+.blurb{max-width:64ch;margin:0 auto;color:var(--muted);font-size:15.5px;text-wrap:pretty}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.chip{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;color:var(--muted);
+  background:var(--bg);
+}
+.chip b{color:var(--ink);font-weight:600}
+
+/* ---------- shell ---------- */
+.shell{max-width:1180px;margin:0 auto;padding-left:20px;padding-right:20px;
+  display:grid;grid-template-columns:212px minmax(0,1fr);gap:44px;align-items:start}
+@media(max-width:860px){.shell{grid-template-columns:1fr;gap:0}}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);padding-block:30px}
+@media(max-width:860px){
+  .nav{position:static;padding-block:18px 6px;border-bottom:1px solid var(--line-soft)}
+  .navlist{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+  .navlist a{white-space:nowrap;border-left:none !important;border:1px solid var(--line);border-radius:999px;padding:5px 12px !important}
+}
+.search{
+  width:100%;font-family:var(--font-body);font-size:13.5px;color:var(--ink);
+  background:var(--surface);border:1px solid var(--line);border-radius:6px;
+  padding:9px 11px;margin-bottom:16px;
+}
+.search::placeholder{color:var(--muted)}
+.navlist{display:flex;flex-direction:column;gap:1px;list-style:none;margin:0;padding:0}
+.navlist a{
+  display:block;padding:5px 0 5px 12px;border-left:2px solid transparent;
+  font-size:13.5px;color:var(--muted);text-decoration:none;
+}
+.navlist a:hover{color:var(--ink);border-left-color:var(--line)}
+.navlist a.on{color:var(--ember);border-left-color:var(--ember);font-weight:500}
+.nav-foot{margin-top:18px;font-family:var(--font-mono);font-size:10.5px;color:var(--muted);line-height:1.7}
+@media(max-width:860px){.nav-foot{display:none}}
+
+/* ---------- content ---------- */
+main{padding-block:34px 70px;min-width:0}
+section{margin-bottom:58px;scroll-margin-top:24px}
+.sec-head{text-align:center;margin-bottom:26px}
+.sec-kicker{
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px
+}
+.sec-title{
+  font-family:var(--font-display);font-weight:700;text-transform:uppercase;
+  letter-spacing:.045em;font-size:clamp(26px,4.4vw,38px);line-height:1;margin:0;
+  text-wrap:balance;
+}
+.sec-head::after{content:"";display:block;height:2px;background:var(--ink);margin-top:14px}
+.lede{max-width:66ch;margin:0 auto 22px;text-align:center;color:var(--muted);text-wrap:pretty}
+p{margin:0 0 14px}
+main p:not(.lede):not(.note){max-width:70ch}
+h3{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  font-size:19px;margin:28px 0 10px}
+.note{
+  border-left:3px solid var(--ember);background:var(--ember-wash);
+  padding:12px 16px;margin:20px 0;font-size:14px;border-radius:0 4px 4px 0;
+}
+.note b{font-weight:600}
+code,kbd{font-family:var(--font-mono);font-size:.9em}
+code{background:var(--surface-2);padding:1px 5px;border-radius:3px}
+kbd{
+  background:var(--surface);border:1px solid var(--line);border-bottom-width:2px;
+  border-radius:4px;padding:2px 7px;font-size:12px;font-weight:600;color:var(--ink);
+  box-shadow:var(--shadow);white-space:nowrap;
+}
+
+/* ---------- facts ---------- */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:0 0 26px}
+@media(max-width:560px){.facts{grid-template-columns:repeat(2,1fr)}}
+.fact{background:var(--surface);padding:16px 12px;text-align:center}
+.fact-v{font-family:var(--font-display);font-weight:800;font-size:40px;line-height:1;color:var(--ember)}
+.fact-l{font-size:12.5px;font-weight:600;margin-top:5px}
+.fact-n{font-size:11.5px;color:var(--muted);line-height:1.4;margin-top:2px}
+
+/* ---------- controls infographic ---------- */
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:22px 0}
+.ctrl{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:15px 16px}
+.ctrl-keys{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.ctrl-plus{color:var(--muted);font-size:12px}
+.ctrl-t{font-size:13px;font-weight:600}
+.ctrl-d{font-size:12.5px;color:var(--muted);line-height:1.5}
+
+/* ---------- tier ladder ---------- */
+.ladder{border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:22px 0}
+.rung{display:grid;grid-template-columns:118px 1fr;gap:0;align-items:stretch;border-bottom:1px solid var(--line-soft);background:var(--surface)}
+.rung:last-child{border-bottom:0}
+.rung-n{
+  display:flex;align-items:center;gap:9px;padding:13px 14px;
+  font-family:var(--font-display);font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;font-size:17px;border-right:1px solid var(--line-soft);
+}
+.heat{width:5px;align-self:stretch;border-radius:3px;background:var(--heat)}
+.rung-t{padding:13px 16px;font-size:13.5px;color:var(--muted)}
+.rung-t b{color:var(--ink);font-weight:600}
+@media(max-width:520px){
+  .rung{grid-template-columns:1fr}
+  .rung-n{border-right:0;border-bottom:1px solid var(--line-soft);padding-bottom:9px}
+  .rung-t{padding-top:9px}
+}
+
+/* ---------- loop diagram ---------- */
+.loopwrap{overflow-x:auto;margin:22px 0}
+.loopwrap svg{display:block;margin:0 auto;max-width:100%;height:auto}
+
+/* ---------- weapon cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:18px 19px;box-shadow:var(--shadow)}
+.card-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  padding-bottom:10px;border-bottom:1px solid var(--line-soft);margin-bottom:12px}
+.card-name{font-family:var(--font-display);font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;font-size:25px;line-height:1;margin:0}
+.card-role{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ember)}
+.card-id{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+.ab{margin-bottom:13px}
+.ab:last-child{margin-bottom:0}
+.ab-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.ab-n{font-weight:600;font-size:14.5px}
+.ab-s{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:1px 6px}
+.ab-t{font-size:13.5px;color:var(--muted);margin:3px 0 0;line-height:1.55}
+.card-foot{margin-top:14px;padding-top:11px;border-top:1px solid var(--line-soft);
+  font-size:12.5px;color:var(--muted)}
+.card-foot b{color:var(--ink);font-weight:600}
+.mats{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.mat{font-family:var(--font-mono);font-size:11px;background:var(--steel-wash);
+  border:1px solid var(--line);border-radius:3px;padding:2px 7px;color:var(--ink)}
+.flav{font-family:var(--font-display);font-size:19px;font-weight:600;color:var(--steel);
+  letter-spacing:.02em;margin:0 0 11px}
+
+/* ---------- tables ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;margin:18px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surface)}
+th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);background:var(--surface-2);font-weight:600}
+td.cmd{font-family:var(--font-mono);font-size:13px;color:var(--ember);white-space:nowrap;font-weight:500}
+
+/* ---------- faq ---------- */
+.faq{border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.faq details{border-bottom:1px solid var(--line-soft);background:var(--surface)}
+.faq details:last-child{border-bottom:0}
+.faq summary{padding:13px 16px;cursor:pointer;font-weight:600;font-size:14.5px;list-style:none;
+  display:flex;justify-content:space-between;gap:12px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--font-mono);color:var(--ember);font-size:17px;flex:none}
+.faq details[open] summary::after{content:"\2212"}
+.faq p{padding:0 16px 14px;margin:0;color:var(--muted);font-size:14px;max-width:72ch}
+
+/* ---------- changelog ---------- */
+.log{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.log li{padding:0 0 14px 18px;position:relative;font-size:14px;color:var(--muted)}
+.log li::before{content:"";position:absolute;left:-5px;top:9px;width:8px;height:8px;
+  border-radius:50%;background:var(--ember)}
+.log time{font-family:var(--font-mono);font-size:11.5px;color:var(--ink);font-weight:600;
+  display:block;letter-spacing:.04em}
+
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:40px 0;display:none}
+footer{border-top:1px solid var(--line);margin-top:10px;background:var(--surface)}
+.foot-in{max-width:1180px;margin:0 auto;padding-block:22px;padding-left:20px;padding-right:20px;
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.04em}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="mast-in">
+    <h1 class="wordmark" id="wordmark">FORGED</h1>
+    <p class="tagline" id="tagline"></p>
+    <div class="mast-rule"></div>
+    <p class="blurb" id="blurb"></p>
+    <div class="chips" id="chips"></div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="nav" aria-label="Wiki sections">
+    <input class="search" id="search" type="search" placeholder="Search the wiki…" aria-label="Search the wiki">
+    <ul class="navlist" id="navlist"></ul>
+    <div class="nav-foot">
+      UPDATED <span id="nav-updated"></span><br>
+      <span id="nav-mc"></span>
+    </div>
+  </nav>
+
+  <main>
+    <p class="empty" id="empty">Nothing on the wiki matches that.</p>
+
+    <!-- ============================ OVERVIEW ============================ -->
+    <section id="overview" data-title="What FORGED is">
+      <div class="sec-head">
+        <span class="sec-kicker">Start here</span>
+        <h2 class="sec-title">What FORGED Is</h2>
+      </div>
+      <div class="facts" id="facts"></div>
+      <p>FORGED turns an ordinary SMP into a season-long duel over a single item. You are not handed a
+        kit and told to build one — you are <b>dealt a weapon</b>, and that weapon is the only one you will
+        ever carry. It is bound to you, it cannot be stolen, it cannot be put in a chest, and it cannot break.</p>
+      <p>What it <em>can</em> do is get stronger, and the only real way to make that happen is to kill
+        somebody who has been getting stronger too. Every death in the server drops a <b>Weapon Fragment</b>;
+        every Fragment is one rung up the ladder. Every death also costs a rung. The result is a server where
+        power visibly moves from player to player instead of accumulating quietly in everyone's ender chest.</p>
+      <div class="note">
+        <b>No hidden numbers.</b> No weapon in FORGED adds attack damage or damage reduction.
+        Tiers buy you movement speed, reach, footing and mobility — never a secret damage bonus.
+        Damage comes from the material you are on and the enchantments you can read in the tooltip.
+      </div>
+    </section>
+
+    <!-- ============================ FIRST JOIN ============================ -->
+    <section id="start" data-title="Your first join">
+      <div class="sec-head">
+        <span class="sec-kicker">Getting started</span>
+        <h2 class="sec-title">Your First Join</h2>
+      </div>
+      <p class="lede">Nobody picks. The server picks, once, and it makes a moment of it.</p>
+      <p>The first time you join, every Chosen Weapon rises and circles you in <b>the Choosing</b>. One by one
+        they fall away until a single weapon is left, and that one takes you. It is a reveal rather than a draw —
+        the outcome is already decided before the first weapon lifts off the ground.</p>
+      <p>You will also be dealt one of <b>six colours</b> — crimson, ember, verdant, tide, cobalt or amethyst — and
+        your weapon's art is recoloured to match it for the rest of the season. Two players with the same weapon
+        rarely look the same.</p>
+
+      <h3>Firing your abilities</h3>
+      <div class="controls">
+        <div class="ctrl">
+          <div class="ctrl-keys"><kbd>F</kbd></div>
+          <div class="ctrl-t">Ability 1</div>
+          <div class="ctrl-d">The swap-hands key. Available from the moment you are chosen, in a weaker "lesser" form until Stone.</div>
+        </div>
+        <div class="ctrl">
+          <div class="ctrl-keys"><kbd>Shift</kbd><span class="ctrl-plus">+</span><kbd>F</kbd></div>
+          <div class="ctrl-t">Ability 2</div>
+          <div class="ctrl-d">Sneak and swap hands. Locked until your weapon reaches <b>Iron</b>.</div>
+        </div>
+        <div class="ctrl">
+          <div class="ctrl-keys"><kbd>Right-click</kbd></div>
+          <div class="ctrl-t">Extra Weapon, ability 1</div>
+          <div class="ctrl-d">An Extra Weapon is fired by clicking it, never by swap-hands — that key has to keep firing your Chosen Weapon's kit.</div>
+        </div>
+        <div class="ctrl">
+          <div class="ctrl-keys"><kbd>Shift</kbd><span class="ctrl-plus">+</span><kbd>Right-click</kbd></div>
+          <div class="ctrl-t">Extra Weapon, ability 2</div>
+          <div class="ctrl-d">Same rule, second slot.</div>
+        </div>
+      </div>
+      <div class="note">
+        Your cooldowns, your tier and your unlocked abilities are always one command away:
+        <code>/forged</code>. The heads-up display shows the same thing while you fight.
+      </div>
+    </section>
+
+    <!-- ============================ PROGRESSION ============================ -->
+    <section id="progression" data-title="Progression and tiers">
+      <div class="sec-head">
+        <span class="sec-kicker">The ladder</span>
+        <h2 class="sec-title">Progression</h2>
+      </div>
+      <p class="lede">Six tiers. One Fragment per rung. The last rung is not for sale.</p>
+
+      <div class="ladder">
+        <div class="rung"><div class="rung-n"><span class="heat" style="--heat:#7A6A52"></span>Wood</div>
+          <div class="rung-t">Where you start. <b>Lesser</b> version of Ability 1 — longer cooldown, less of everything.</div></div>
+        <div class="rung"><div class="rung-n"><span class="heat" style="--heat:#8A8A8A"></span>Stone</div>
+          <div class="rung-t">Ability 1 becomes the <b>full</b> version. Enchantments step up.</div></div>
+        <div class="rung"><div class="rung-n"><span class="heat" style="--heat:#C99A2E"></span>Gold</div>
+          <div class="rung-t">Ability 1 improves again. Higher enchantments.</div></div>
+        <div class="rung"><div class="rung-n"><span class="heat" style="--heat:#B9BCC0"></span>Iron</div>
+          <div class="rung-t"><b>Ability 2 unlocks.</b> The biggest single jump on the ladder.</div></div>
+        <div class="rung"><div class="rung-n"><span class="heat" style="--heat:#3FB9C4"></span>Diamond</div>
+          <div class="rung-t">Both abilities improve. High enchantments. <b>The ceiling for Fragments.</b></div></div>
+        <div class="rung"><div class="rung-n"><span class="heat" style="--heat:var(--ember-hot)"></span>Netherite</div>
+          <div class="rung-t">Shorter cooldowns on both abilities, maximum enchantments and custom art.
+            <b>Only the Forge can grant it.</b></div></div>
+      </div>
+
+      <h3>How power actually moves</h3>
+      <div class="loopwrap">
+        <svg viewBox="0 0 700 218" role="img" aria-label="Diagram: a kill drops a Fragment, a Fragment buys an upgrade, a death costs an upgrade and drops another Fragment.">
+          <defs>
+            <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto">
+              <path d="M0,0 L7,3.2 L0,6.4 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <g style="color:var(--line)" fill="none" stroke="currentColor" stroke-width="1.4" marker-end="url(#ar)">
+            <path d="M176 60 H262"/>
+            <path d="M420 60 H506"/>
+            <path d="M568 90 V128 H352"/>
+            <path d="M262 158 H176 V92"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="0.9"
+             fill="var(--muted)" text-anchor="middle">
+            <text x="219" y="50">DROPS</text>
+            <text x="463" y="50">BUYS</text>
+            <text x="440" y="120">COSTS YOU ONE</text>
+            <text x="219" y="150">AND DROPS ONE</text>
+          </g>
+          <g>
+            <rect x="26" y="34" width="150" height="52" rx="6" fill="var(--surface)" stroke="var(--ember)" stroke-width="1.6"/>
+            <text x="101" y="58" text-anchor="middle" font-family="Big Shoulders Display, sans-serif"
+                  font-weight="700" font-size="20" fill="var(--ink)" letter-spacing="1">A KILL</text>
+            <text x="101" y="74" text-anchor="middle" font-family="IBM Plex Sans, sans-serif"
+                  font-size="11" fill="var(--muted)">any player death</text>
+          </g>
+          <g>
+            <rect x="262" y="34" width="158" height="52" rx="6" fill="var(--surface)" stroke="var(--line)"/>
+            <text x="341" y="58" text-anchor="middle" font-family="Big Shoulders Display, sans-serif"
+                  font-weight="700" font-size="20" fill="var(--ink)" letter-spacing="1">1 FRAGMENT</text>
+            <text x="341" y="74" text-anchor="middle" font-family="IBM Plex Sans, sans-serif"
+                  font-size="11" fill="var(--muted)">a real item — steal it, trade it</text>
+          </g>
+          <g>
+            <rect x="506" y="34" width="168" height="52" rx="6" fill="var(--surface)" stroke="var(--line)"/>
+            <text x="590" y="58" text-anchor="middle" font-family="Big Shoulders Display, sans-serif"
+                  font-weight="700" font-size="20" fill="var(--ink)" letter-spacing="1">+1 UPGRADE</text>
+            <text x="590" y="74" text-anchor="middle" font-family="IBM Plex Sans, sans-serif"
+                  font-size="11" fill="var(--muted)">up to Diamond</text>
+          </g>
+          <g>
+            <rect x="176" y="132" width="176" height="52" rx="6" fill="var(--surface)" stroke="var(--steel)" stroke-width="1.6"/>
+            <text x="264" y="156" text-anchor="middle" font-family="Big Shoulders Display, sans-serif"
+                  font-weight="700" font-size="20" fill="var(--ink)" letter-spacing="1">YOUR DEATH</text>
+            <text x="264" y="172" text-anchor="middle" font-family="IBM Plex Sans, sans-serif"
+                  font-size="11" fill="var(--muted)">however it happens</text>
+          </g>
+          <text x="590" y="150" text-anchor="middle" font-family="IBM Plex Sans, sans-serif"
+                font-size="11.5" fill="var(--muted)">Netherite is bought at the Forge,</text>
+          <text x="590" y="166" text-anchor="middle" font-family="IBM Plex Sans, sans-serif"
+                font-size="11.5" fill="var(--muted)">never with Fragments.</text>
+        </svg>
+      </div>
+
+      <h3>Maces and Extra Weapons climb differently</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Category</th><th>Levels</th><th>What each one gives</th></tr></thead>
+          <tbody>
+            <tr><td><b>Chosen Weapon</b></td><td>6</td>
+              <td>Wood → Netherite. Ability 1 from the start, Ability 2 at Iron, Netherite only at the Forge.</td></tr>
+            <tr><td><b>Mace</b></td><td>3</td>
+              <td>Upgrade 1 is the Mace and its vanilla enchantment. Upgrade 2 unlocks the first ability, Upgrade 3 the second.</td></tr>
+            <tr><td><b>Extra Weapon</b></td><td>3</td>
+              <td>One rung earlier than a Mace: Upgrade 1 unlocks the first ability, Upgrade 2 the second, Upgrade 3 sharpens both.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <b>Feeding an Extra Weapon.</b> A Fragment consumed with the Extra Weapon <em>in your other hand</em>
+        raises the Extra Weapon. With nothing in that hand, it goes to your Chosen Weapon as usual.
+      </div>
+    </section>
+
+    <!-- ============================ WEAPONS ============================ -->
+    <section id="weapons" data-title="The seven Chosen Weapons">
+      <div class="sec-head">
+        <span class="sec-kicker">The pool</span>
+        <h2 class="sec-title">The Seven Chosen Weapons</h2>
+      </div>
+      <p class="lede">One of these is dealt to you on your first join. Each has its own identity, its own two
+        abilities, and its own reason to be feared.</p>
+      <div class="grid" id="weapons-grid"></div>
+    </section>
+
+    <!-- ============================ MACES ============================ -->
+    <section id="maces" data-title="The three Maces">
+      <div class="sec-head">
+        <span class="sec-kicker">Contested</span>
+        <h2 class="sec-title">The Three Maces</h2>
+      </div>
+      <p class="lede">Not weapons you are given. Weapons you take — in public, on a timer, in front of everybody.</p>
+      <p>Each Mace has a <b>permanent altar</b> somewhere in the world: a giant anvil with the name of its
+        enchantment hanging over it. Bring the materials, start the ritual at the altar, and survive it. The ritual is
+        timed and <b>server-wide</b> — everyone knows it is happening, and everyone is free to come and stop you.
+        Dying mid-ritual cancels it and hands you nothing.</p>
+      <div class="note">
+        <b>Claiming a Mace replaces your Chosen Weapon permanently.</b> Your old weapon and every upgrade on it
+        are wiped, and they do not come back when you lose the Mace. This is the biggest one-way decision in the game.
+      </div>
+      <div class="grid" id="maces-grid"></div>
+      <h3>Losing one</h3>
+      <p>When a Mace owner dies, the Mace leaves them, drops an upgrade, and <b>returns to its altar</b> — with a
+        server-wide announcement and an ominous sound for everyone online. It is then available for anybody to
+        claim again through the ritual. Your previous Chosen Weapon does not come back; you are on a Mace now.</p>
+    </section>
+
+    <!-- ============================ EXTRA ============================ -->
+    <section id="extra" data-title="Extra Weapons and the Vigil">
+      <div class="sec-head">
+        <span class="sec-kicker">Third category</span>
+        <h2 class="sec-title">Extra Weapons</h2>
+      </div>
+      <p class="lede">A second weapon that costs you nothing to hold.</p>
+      <p>An Extra Weapon sits <b>alongside</b> your Chosen Weapon rather than replacing it. Holding one wipes no
+        progression and takes nothing away. It cannot be rolled by the Choosing and cannot be crafted — there is
+        exactly one of each on the server, and it is placed into the season by hand.</p>
+      <div class="grid" id="extras-grid"></div>
+    </section>
+
+    <!-- ============================ FORGE ============================ -->
+    <section id="forge" data-title="The Forge">
+      <div class="sec-head">
+        <span class="sec-kicker">Spawn</span>
+        <h2 class="sec-title">The Forge</h2>
+      </div>
+      <p class="lede">There is one anvil on the server that matters, and it is the only road to Netherite.</p>
+      <p>The Forge stands at spawn as an enormous anvil. Fragments will carry a Chosen Weapon as far as
+        <b>Diamond</b> and no further — the last rung is bought here, and here only.</p>
+      <p>Forging the final tier costs <b>one Kill Token</b> plus that weapon's own materials, which the menu quotes
+        you before you commit. You do not place anything in a slot: the Forge reads the ingredients straight out of
+        your inventory, because Chosen Weapons are barred from containers and a "put your weapon here" slot would
+        fight that protection. Nothing is taken until the whole price is confirmed, and once it is paid the tier is
+        yours even if the animation is interrupted.</p>
+      <div class="note">
+        <b>Maces never visit the Forge.</b> They have three upgrades, no Netherite tier, and are won at an altar.
+      </div>
+    </section>
+
+    <!-- ============================ DEATH ============================ -->
+    <section id="death" data-title="Death and what it costs">
+      <div class="sec-head">
+        <span class="sec-kicker">The penalty</span>
+        <h2 class="sec-title">Death</h2>
+      </div>
+      <p class="lede">Every death counts. It does not matter who or what killed you.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>What happens</th><th>Detail</th></tr></thead>
+          <tbody>
+            <tr><td><b>You lose one upgrade</b></td>
+              <td>Down one rung on the ladder, immediately. If you are already at the bottom, you stay there.</td></tr>
+            <tr><td><b>You drop one Fragment</b></td>
+              <td>Exactly one, every time — including at the bottom rung. Whoever is standing over you can pick it up.</td></tr>
+            <tr><td><b>Your weapon stays yours</b></td>
+              <td>It is never dropped and never rerolled. You get it back on respawn at your new level.</td></tr>
+            <tr><td><b>Falls, lava and the void count</b></td>
+              <td>The penalty is not PvP-only. Drowning in a ravine costs you exactly what a duel would.</td></tr>
+            <tr><td><b>A Mace goes home</b></td>
+              <td>It loses an upgrade, leaves you, returns to its altar, and the server is told.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Progression is saved to disk, so a restart never costs you a level, a Mace or a Fragment.</p>
+    </section>
+
+    <!-- ============================ CRAFTING ============================ -->
+    <section id="crafting" data-title="Crafting Fragments and Rerolls">
+      <div class="sec-head">
+        <span class="sec-kicker">The expensive way</span>
+        <h2 class="sec-title">Crafting</h2>
+      </div>
+      <p class="lede">Both of these can be crafted. Both are priced so that you would rather fight somebody.</p>
+      <div class="grid" id="recipes-grid"></div>
+    </section>
+
+    <!-- ============================ COMMANDS ============================ -->
+    <section id="commands" data-title="Commands">
+      <div class="sec-head">
+        <span class="sec-kicker">Reference</span>
+        <h2 class="sec-title">Commands</h2>
+      </div>
+      <p class="lede">Everything you need, and nothing you have to remember.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+          <tbody id="commands-body"></tbody>
+        </table>
+      </div>
+
+      <h3>Trust — playing on a team</h3>
+      <p>Trusting somebody stops <b>your abilities</b> landing on them: damage, pulls, lifts, launches, area
+        effects, and any projectile an ability created.</p>
+      <p>It deliberately does <b>not</b> stop your ordinary swings, or a plain bow shot. And it is <b>one-way</b> —
+        you trusting them does not stop their abilities hitting you. A real truce needs both of you to run the
+        command. Trust survives death, a Reroll, a Mace claim and a server restart.</p>
+    </section>
+
+    <!-- ============================ PACK ============================ -->
+    <section id="pack" data-title="Resource pack">
+      <div class="sec-head">
+        <span class="sec-kicker">Client side</span>
+        <h2 class="sec-title">Resource Pack</h2>
+      </div>
+      <p class="lede">The plugin works without it. It just looks like vanilla, and you lose every icon.</p>
+      <p>FORGED ships its own art — custom weapon models at the top tiers, six recoloured variants of every
+        weapon, and a set of ability emblems that the heads-up display and your tooltips draw. The pack is
+        <b>installed by hand</b>, not served by the server.</p>
+      <p>Drop the FORGED pack zip into your <code>.minecraft/resourcepacks</code> folder, then select it in
+        <b>Options → Resource Packs</b> and move it to the top.</p>
+      <div class="note">
+        <b>Seeing a purple and black cube?</b> That is Minecraft telling you it has no model for that item.
+        Nine times out of ten the pack is installed but not selected, or a second FORGED pack above it is
+        winning. Check the pack list before reporting a bug.
+      </div>
+    </section>
+
+    <!-- ============================ FAQ ============================ -->
+    <section id="faq" data-title="Frequently asked questions">
+      <div class="sec-head">
+        <span class="sec-kicker">Quick answers</span>
+        <h2 class="sec-title">FAQ</h2>
+      </div>
+      <div class="faq" id="faq-list"></div>
+    </section>
+
+    <!-- ============================ CHANGELOG ============================ -->
+    <section id="changelog" data-title="Changelog and updating this wiki">
+      <div class="sec-head">
+        <span class="sec-kicker">Housekeeping</span>
+        <h2 class="sec-title">Changelog</h2>
+      </div>
+      <ul class="log" id="log"></ul>
+      <h3>Keeping this page current</h3>
+      <p>Every word on this wiki comes out of one file — <code>docs/wiki/wiki-data.js</code>. Edit that file,
+        bump the date at the top, add a changelog line, and re-publish. The page itself never needs touching.</p>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <span id="foot-left"></span>
+    <span id="foot-right"></span>
+  </div>
+</footer>
+
+<script src="wiki-data.js"></script>
+<script>
+(function(){
+  "use strict";
+  var esc = function(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  };
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ---------- masthead ---------- */
+  $("wordmark").textContent  = META.name;
+  $("tagline").textContent   = META.tagline;
+  $("blurb").textContent     = META.blurb;
+  document.title             = META.name + " Codex";
+  $("chips").innerHTML =
+      '<span class="chip"><b>' + esc(META.minecraft) + '</b></span>' +
+      '<span class="chip"><b>' + esc(META.java) + '</b></span>' +
+      '<span class="chip">Updated <b>' + esc(META.updated) + '</b></span>' +
+      '<span class="chip">' + esc(META.version) + '</span>';
+  $("nav-updated").textContent = META.updated;
+  $("nav-mc").textContent      = META.minecraft;
+  $("foot-left").textContent   = META.name + " — " + META.minecraft + " · " + META.java;
+  $("foot-right").textContent  = "LAST UPDATED " + META.updated;
+
+  /* ---------- facts ---------- */
+  $("facts").innerHTML = FACTS.map(function(f){
+    return '<div class="fact"><div class="fact-v">' + esc(f.value) + '</div>' +
+           '<div class="fact-l">' + esc(f.label) + '</div>' +
+           '<div class="fact-n">' + esc(f.note) + '</div></div>';
+  }).join("");
+
+  /* ---------- abilities block ---------- */
+  function abilities(list){
+    return list.map(function(a){
+      return '<div class="ab"><div class="ab-h"><span class="ab-n">' + esc(a.name) + '</span>' +
+             '<span class="ab-s">' + esc(a.slot) + '</span></div>' +
+             '<p class="ab-t">' + esc(a.text) + '</p></div>';
+    }).join("");
+  }
+
+  /* ---------- weapons ---------- */
+  $("weapons-grid").innerHTML = WEAPONS.map(function(w){
+    return '<article class="card"><div class="card-top">' +
+      '<h3 class="card-name">' + esc(w.name) + '</h3>' +
+      '<span class="card-role">' + esc(w.role) + '</span></div>' +
+      '<p class="card-id">' + esc(w.identity) + '</p>' +
+      abilities(w.abilities) +
+      '<div class="card-foot"><b>Tier bonuses:</b> ' + esc(w.stats) + '</div></article>';
+  }).join("");
+
+  /* ---------- maces ---------- */
+  $("maces-grid").innerHTML = MACES.map(function(m){
+    return '<article class="card"><div class="card-top">' +
+      '<h3 class="card-name">' + esc(m.name) + '</h3>' +
+      '<span class="card-role">' + esc(m.enchant) + ' enchantment</span></div>' +
+      '<p class="flav">&ldquo;' + esc(m.flavour) + '&rdquo;</p>' +
+      abilities(m.abilities) +
+      '<div class="card-foot"><b>Ritual materials</b><div class="mats">' +
+      m.materials.map(function(x){ return '<span class="mat">' + esc(x) + '</span>'; }).join("") +
+      '</div></div></article>';
+  }).join("");
+
+  /* ---------- extras ---------- */
+  $("extras-grid").innerHTML = EXTRAS.map(function(e){
+    return '<article class="card"><div class="card-top">' +
+      '<h3 class="card-name">' + esc(e.name) + '</h3>' +
+      '<span class="card-role">' + esc(e.item) + '</span></div>' +
+      '<p class="flav">&ldquo;' + esc(e.flavour) + '&rdquo;</p>' +
+      e.upgrades.map(function(u){
+        return '<div class="ab"><div class="ab-h"><span class="ab-s">' + esc(u.level) + '</span></div>' +
+               '<p class="ab-t">' + esc(u.text) + '</p></div>';
+      }).join("") +
+      '<div class="card-foot">Fired with <b>right-click</b> and <b>sneak + right-click</b>, so your ' +
+      'Chosen Weapon keeps the swap-hands key.</div></article>';
+  }).join("");
+
+  /* ---------- recipes ---------- */
+  $("recipes-grid").innerHTML = RECIPES.map(function(r){
+    return '<article class="card"><div class="card-top">' +
+      '<h3 class="card-name">' + esc(r.name) + '</h3></div>' +
+      '<p class="card-id">' + esc(r.purpose) + '</p>' +
+      '<div class="mats">' + r.items.map(function(x){
+        return '<span class="mat">' + esc(x) + '</span>'; }).join("") + '</div>' +
+      '<div class="card-foot">' + esc(r.note) + '</div></article>';
+  }).join("");
+
+  /* ---------- commands ---------- */
+  $("commands-body").innerHTML = COMMANDS.map(function(c){
+    return '<tr><td class="cmd">' + esc(c.cmd) + '</td><td>' + esc(c.what) + '</td></tr>';
+  }).join("");
+
+  /* ---------- faq ---------- */
+  $("faq-list").innerHTML = FAQ.map(function(f, i){
+    return '<details' + (i === 0 ? ' open' : '') + '><summary>' + esc(f.q) + '</summary>' +
+           '<p>' + esc(f.a) + '</p></details>';
+  }).join("");
+
+  /* ---------- changelog ---------- */
+  $("log").innerHTML = CHANGELOG.map(function(c){
+    return '<li><time>' + esc(c.date) + '</time>' + esc(c.text) + '</li>';
+  }).join("");
+
+  /* ---------- nav ---------- */
+  var sections = Array.prototype.slice.call(document.querySelectorAll("main section"));
+  $("navlist").innerHTML = sections.map(function(s){
+    return '<li><a href="#' + s.id + '" data-for="' + s.id + '">' +
+           esc(s.dataset.title) + '</a></li>';
+  }).join("");
+  var links = Array.prototype.slice.call(document.querySelectorAll(".navlist a"));
+
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (!en.isIntersecting) return;
+        links.forEach(function(a){ a.classList.toggle("on", a.dataset.for === en.target.id); });
+      });
+    }, { rootMargin: "-10% 0px -75% 0px" });
+    sections.forEach(function(s){ io.observe(s); });
+  }
+
+  /* ---------- search ---------- */
+  var box = $("search");
+  var empty = $("empty");
+  box.addEventListener("input", function(){
+    var q = box.value.trim().toLowerCase();
+    var hits = 0;
+    sections.forEach(function(s){
+      var match = !q || (s.dataset.title + " " + s.textContent).toLowerCase().indexOf(q) !== -1;
+      s.hidden = !match;
+      if (match) hits++;
+      var link = links.filter(function(a){ return a.dataset.for === s.id; })[0];
+      if (link) link.parentElement.hidden = !match;
+    });
+    empty.style.display = hits ? "none" : "block";
+    if (q) {
+      document.querySelectorAll(".faq details").forEach(function(d){ d.open = true; });
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
